@@ -79,6 +79,26 @@
       </properties>
       <build>
         <plugins>
+	        <plugin>
+		    <groupId>org.pitest</groupId>
+		    <artifactId>pitest-maven</artifactId>
+		    <version>1.30.0</version>
+		    <configuration>
+		        <!-- no longer required -->
+		        <targetClasses>
+		            <param>org.apache.tika.parser.pdf*</param>
+		        </targetClasses>
+		        <!-- no longer required -->
+	
+		    </configuration>
+		    <dependencies>
+			    <dependency>
+			      <groupId>org.pitest</groupId>
+			      <artifactId>pitest-junit5-plugin</artifactId>
+			      <version>1.2.1</version>
+			    </dependency>
+		  	</dependencies>
+		  </plugin>
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <executions>
@@ -322,6 +342,27 @@ least three +1 Tika PMC votes are cast.
           </inputExcludes>
         </configuration>
       </plugin>
+      
+  	  <plugin>
+	    <groupId>org.pitest</groupId>
+	    <artifactId>pitest-maven</artifactId>
+	    <version>1.30.0</version>
+	    <configuration>
+	        <!-- no longer required -->
+	        <targetClasses>
+	            <param>org.apache.tika.parser.pdf*</param>
+	        </targetClasses>
+	        <!-- no longer required -->
+
+	    </configuration>
+	    <dependencies>
+		    <dependency>
+		      <groupId>org.pitest</groupId>
+		      <artifactId>pitest-junit5-plugin</artifactId>
+		      <version>1.2.1</version>
+		    </dependency>
+	  	</dependencies>
+	  </plugin>
     </plugins>
   </build>
   <description>The Apache Tika™ toolkit detects and extracts metadata and structured text content from various documents
