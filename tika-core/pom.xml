@@ -19,7 +19,9 @@
   under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -33,21 +35,21 @@
   <packaging>bundle</packaging>
   <name>Apache Tika core</name>
   <url>https://tika.apache.org/</url>
-  
+
   <dependencyManagement>
-	  <dependencies>
-	    <dependency>
-	      <groupId>net.bytebuddy</groupId>
-	      <artifactId>byte-buddy</artifactId>
-	      <version>1.17.7</version>
-	    </dependency>
-	    <dependency>
-	      <groupId>net.bytebuddy</groupId>
-	      <artifactId>byte-buddy-agent</artifactId>
-	      <version>1.17.7</version>
-	    </dependency>
-	  </dependencies>
-	</dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>net.bytebuddy</groupId>
+        <artifactId>byte-buddy</artifactId>
+        <version>1.17.7</version>
+      </dependency>
+      <dependency>
+        <groupId>net.bytebuddy</groupId>
+        <artifactId>byte-buddy-agent</artifactId>
+        <version>1.17.7</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <!-- See https://issues.apache.org/jira/browse/TIKA-2566 for more info -->
@@ -134,52 +136,52 @@
       <artifactId>junit-jupiter-engine</artifactId>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
-	    <groupId>io.github.ZJU-ACES-ISE</groupId>
-	    <artifactId>chatunitest-starter</artifactId>
-	    <version>1.4.0</version>
-	    <type>pom</type>
-	    <scope>test</scope>
-	</dependency>
+      <groupId>io.github.ZJU-ACES-ISE</groupId>
+      <artifactId>chatunitest-starter</artifactId>
+      <version>1.4.0</version>
+      <type>pom</type>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
-    
-    <plugin>
-  <groupId>org.apache.maven.plugins</groupId>
-  <artifactId>maven-surefire-plugin</artifactId>
-  <dependencies>
-    <dependency>
-      <groupId>org.apache.maven.surefire</groupId>
-      <artifactId>surefire-junit-platform</artifactId>
-      <version>3.5.6</version>
-    </dependency>
-  </dependencies>
-</plugin>
-    
-    	      <plugin>
-			    <groupId>org.pitest</groupId>
-			    <artifactId>pitest-maven</artifactId>
-			    <version>1.30.0</version>
-			    <configuration>
-			        <!-- no longer required -->
-			        <targetClasses>
-			            <param>org.apache.tika.config*</param>
-			        </targetClasses>
-			        <!-- no longer required -->
-		
-			    </configuration>
-			    <dependencies>
-				    <dependency>
-				      <groupId>org.pitest</groupId>
-				      <artifactId>pitest-junit5-plugin</artifactId>
-				      <version>1.2.1</version>
-				    </dependency>
-			  	</dependencies>
-			  </plugin>
-    
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-junit-platform</artifactId>
+            <version>3.5.6</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>1.30.0</version>
+        <configuration>
+          <!-- no longer required -->
+          <targetClasses>
+            <param>org.apache.tika.config*</param>
+          </targetClasses>
+          <!-- no longer required -->
+
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>1.2.1</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -347,17 +349,18 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <plugin>
-	    <groupId>io.github.zju-aces-ise</groupId>
-	    <artifactId>chatunitest-maven-plugin</artifactId>
-	    <version>2.1.1</version>
-	    <configuration>
-            <apiKeys>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</apiKeys>
-            <model>gpt-4o</model>
-            <url>https://api.openai.com/v1/chat/completions</url>
+        <groupId>io.github.zju-aces-ise</groupId>
+        <artifactId>chatunitest-maven-plugin</artifactId>
+        <version>2.1.1</version>
+        <configuration>
+          <!-- Required: Use any string to replace your API keys -->
+          <apiKeys>xxx</apiKeys>
+          <model>code-llama</model>
+          <url>http://localhost:11434/v1/chat/completions</url>
         </configuration>
-	  </plugin>
+      </plugin>
 
     </plugins>
   </build>
@@ -372,9 +375,9 @@
           <jvmArgs>-Xmx256m</jvmArgs>
           <timeout>240000</timeout>
           <effort>max</effort>
-        <failOnError>true</failOnError>
-      </configuration>
-    </plugin>
+          <failOnError>true</failOnError>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
