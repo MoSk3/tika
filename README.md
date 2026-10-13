@@ -437,4 +437,9 @@ Sinon, les oracles écrits à la main sont plus spécifiques, car ils ciblent de
 
 ## 8. Exécution dans la GitHub Action
 
-...
+Les tests passent!
+
+![Github Actions](assets/img/GithubActions_1.png)
+![Github Actions](assets/img/GithubActions_2.png)
+
+
