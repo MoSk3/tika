@@ -110,8 +110,6 @@ Pour simplifier son utilisation, nous avons créé un fichier `run-pit.bat` qui 
 
 ```
 
-`TODO` : ajouter la configuration du plugin Pitest (`targetClasses`, `targetTests`) telle qu'elle apparaît dans le `pom.xml`.
-
 ## 4. Problèmes rencontrés
 
 ### 4.1 Difficultés pour exécuter les tests avec Pitest
