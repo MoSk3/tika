@@ -1,9 +1,8 @@
-
 # Tâche 2 - Enric Soldevila - IFT3913
 
 Ce document présente le travail réalisé pour la tâche 2 du cours IFT3913.
 
-## Table des matières 
+## Table des matières
 
 1.  Choix des classes
 2.  Génération de tests avec l'IA
@@ -14,14 +13,14 @@ Ce document présente le travail réalisé pour la tâche 2 du cours IFT3913.
 7.  Critique qualitative des oracles
 8.  Exécution dans la GitHub Action
 
-----------
+---
 
 ## 1. Choix des classes
 
 Nous avons sélectionné deux classes du module `tika-core` :
 
--   `org.apache.tika.parser.ParserDecorator`
--   `org.apache.tika.parser.ParseContext`
+- `org.apache.tika.parser.ParserDecorator`
+- `org.apache.tika.parser.ParseContext`
 
 Ces classes possèdent déjà des tests, mais ceux-ci ne couvrent pas la totalité du code. Avant toute génération, l'analyse de mutation avec les tests originaux montrait des mutants vivants dans les deux classes :
 
@@ -35,9 +34,7 @@ Score de mutation : 16/42 (donc 26 mutants)
 Lignes courvertes : 34/62
 ![ParserDecorator Initial](assets/img/ParseContext_Initial.png)
 
-
 Une part importante des lignes n'est pas couverte, et plusieurs mutants survivent, ce qui signifie que les tests existants ne vérifient pas bien le comportement de ces classes, bien que tous les tests passent.
-
 
 ## 2. Génération de tests avec l'IA (ChatUniTest)
 
@@ -59,7 +56,9 @@ La génération de tests pour une classe se fait avec la commande Maven suivante
 ```
 mvn chatunitest:class "-DselectClass=ClassName" "-Dthread=false" "-DtestNumber=2" "-DmaxRounds=3"
 ```
+
 avec la configuration :
+
 ```
 <dependency>
 	<groupId>io.github.ZJU-ACES-ISE</groupId>
@@ -69,7 +68,9 @@ avec la configuration :
 	<scope>test</scope>
 </dependency>
 ```
+
 ainsi que
+
 ```
 <dependencyManagement>
 	<dependencies>
@@ -86,8 +87,8 @@ ainsi que
 	</dependencies>
 </dependencyManagement>
 ```
-car nous avons rencontré des problèmes de versionnage.
 
+car nous avons rencontré des problèmes de versionnage.
 
 ### 2.3 Les tests générés compilent-ils et s'exécutent-ils ?
 
@@ -131,6 +132,7 @@ Nous avons d'abord essayé de corriger les imports des tests générés, sans su
 ## 5. Résultats pour `ParserDecorator`
 
 ### 5.1 Avant et après la génération
+
 Avant:
 Score de mutation : 8/16
 Lignes courvertes : 13/19
@@ -213,6 +215,7 @@ La correction est de remplacer le nom attendu par le nom binaire correct :
 ```java
 assertEquals("org.apache.tika.parser.ParserDecorator$MimeFilteringDecorator", resultParser.getClass().getName());
 ```
+
 Bien qu'après réflexion et écriture de ce rapport, on aurait pu vérifier avec instanceof à la place...
 
 ### 5.3 Mutants encore vivants après la génération
@@ -258,7 +261,8 @@ void testWithMimeFilters_NoFilters() {
 
 #### Test `testWithMimeFilters_NoIncludeNoExclude_ReturnsOriginalParser`
 
-Le test `testWithMimeFilters_NoIncludeNoExclude_ReturnsOriginalParser` vise à vérifier que `withMimeFilters` retourne un véritable décorateur (`ParserDecorator`) plutôt que le parser d’origine lorsque des filtres d’inclusion et d’exclusion sont fournis. Il utilise trois types MIME (`application/pdf`, `image/png` et `image/jpeg`), avec `png` présent dans les deux ensembles pour vérifier que l’exclusion est prioritaire, tandis que `jpeg` est absent de l’ensemble d’inclusion. Le résultat attendu est un nouvel objet de type `ParserDecorator`, dont les types MIME supportés contiennent `pdf`, mais ni `png`  ni `jpeg`.
+Le test `testWithMimeFilters_NoIncludeNoExclude_ReturnsOriginalParser` vise à vérifier que `withMimeFilters` retourne un véritable décorateur (`ParserDecorator`) plutôt que le parser d’origine lorsque des filtres d’inclusion et d’exclusion sont fournis. Il utilise trois types MIME (`application/pdf`, `image/png` et `image/jpeg`), avec `png` présent dans les deux ensembles pour vérifier que l’exclusion est prioritaire, tandis que `jpeg` est absent de l’ensemble d’inclusion. Le résultat attendu est un nouvel objet de type `ParserDecorator`, dont les types MIME supportés contiennent `pdf`, mais ni `png` ni `jpeg`.
+
 ```java
 @Test
 public void testWithMimeFilters_NoIncludeNoExclude_ReturnsOriginalParser() {
@@ -348,30 +352,27 @@ Après les tests générés
 
 Score de mutation : 36/42
 Lignes couvertes : 55/62
-![ParseContext Initial](assets/img/ParseContext_Iteration_1.png)
-
+![ParseContext Initial](assets/img/ParseContext_Iteration1.png)
 
 Après corrections et tests manuels (`setJsonConfig`, `setResolvedConfig`, `isEmpty`, `copyFrom`)
 
 Score de mutation : 41/42
 Lignes couvertes : 62/62
-![ParseContext Initial](assets/img/ParseContext_Iteration_2.png)
-
+![ParseContext Initial](assets/img/ParseContext_Iteration2.png)
 
 Après ajout de 2 tests ciblés sur `setJsonConfig`
 
 Score de mutation : **42/42**
 Lignes couvertes : **62/62**
-![ParseContext Initial](assets/img/ParseContext_Iteration_3.png)
-
+![ParseContext Initial](assets/img/ParseContext_Iteration3.png)
 
 ### 6.2 Corrections et tests complémentaires
 
 Après la génération, il a fallu corriger quelques tests et en générer de nouveaux :
 
--   **`setJsonConfig`** : un test généré contenait un `assert` inversé, que nous avons corrigé.
--   **`setResolvedConfig`** et **`isEmpty`** : les tests ont été écrits manuellement.
--   **`copyFrom`** : nous avons ajouté le test `ParseContext_copyFrom_ResolvedConfigsNull_Test`, qui couvre le cas où `resolvedConfigs` est `null`.
+- **`setJsonConfig`** : un test généré contenait un `assert` inversé, que nous avons corrigé.
+- **`setResolvedConfig`** et **`isEmpty`** : les tests ont été écrits manuellement.
+- **`copyFrom`** : nous avons ajouté le test `ParseContext_copyFrom_ResolvedConfigsNull_Test`, qui couvre le cas où `resolvedConfigs` est `null`.
 
 Cela a fait monter le score à 41/42 mutants tués et 62/62 lignes couvertes.
 
@@ -380,6 +381,7 @@ Le dernier mutant vivant se trouvait dans `setJsonConfig` : il inversait la cond
 #### Test `testSetJsonConfig_Null_RemovesResolvedConfigWhenPresent`
 
 Le test vise à vérifier que l’appel à `setJsonConfig(nom, null)` supprime l’entrée correspondante de `resolvedConfigs` lorsqu’elle existe, sans affecter les autres entrées. Si la condition de suppression est inversée, l’entrée `testConfig` reste et l’assertion échoue.
+
 ```java
 @Test
 void testSetJsonConfig_Null_RemovesResolvedConfigWhenPresent() throws Exception {
@@ -406,7 +408,8 @@ void testSetJsonConfig_Null_RemovesResolvedConfigWhenPresent() throws Exception 
 
 #### Test `testSetJsonConfig_Null_WhenResolvedConfigsIsNull_DoesNotThrow`
 
-Le test vérifie que l’appel à `setJsonConfig(nom, null)` ne jète pas d'erreur lorsque `resolvedConfigs` vaut `null`. Pour ce faire, on force le champs à `null` . L’appel ne doit déclencher aucune exception `assertDoesNotThrow` et la clé `testConfig` ne doit plus figurer dans `getJsonConfigs()`. 
+Le test vérifie que l’appel à `setJsonConfig(nom, null)` ne jète pas d'erreur lorsque `resolvedConfigs` vaut `null`. Pour ce faire, on force le champs à `null` . L’appel ne doit déclencher aucune exception `assertDoesNotThrow` et la clé `testConfig` ne doit plus figurer dans `getJsonConfigs()`.
+
 ```java
 @Test
 void testSetJsonConfig_Null_WhenResolvedConfigsIsNull_DoesNotThrow() throws Exception {
@@ -428,9 +431,10 @@ Résultat final : **42/42** mutants tués et **62/62** lignes couvertes.
 
 ## 7. Critique qualitative des oracles
 
-Les oracles générés présentent certaines faiblesses : par exemple, le test `testWithoutTypes` compare le nom de classe sous forme de chaîne plutôt que de vérifier l'instance (`instanceof`),  `testWithMimeFilters_NoFilters` ne vérifiait que le cas des ensembles vides et laissait survivre un mutant pour les cas `null`, alors que c'est un cas assez basique à tester. Par contre, ils ont permis de couvrir rapidement les tests et d’augmenter significativement la couverture des tests sans input humain. Par exemple, le score de `ParseContext` passe de 16/42 à 36/42 grâce à la seule génération automatique.
+Les oracles générés présentent certaines faiblesses : par exemple, le test `testWithoutTypes` compare le nom de classe sous forme de chaîne plutôt que de vérifier l'instance (`instanceof`), `testWithMimeFilters_NoFilters` ne vérifiait que le cas des ensembles vides et laissait survivre un mutant pour les cas `null`, alors que c'est un cas assez basique à tester. Par contre, ils ont permis de couvrir rapidement les tests et d’augmenter significativement la couverture des tests sans input humain. Par exemple, le score de `ParseContext` passe de 16/42 à 36/42 grâce à la seule génération automatique.
 
 Sinon, les oracles écrits à la main sont plus spécifiques, car ils ciblent des conditions précises du code, comme une condition inversée ou le cas où `resolvedConfigs` vaut `null`. Ils permettent également de vérifier les effets de bord. Pitest était vraiment pratique pour détecter ou se situaient les branches non-vérifiées dans les conditions facilement, au lieu de tout regarder ligne par ligne!
 
 ## 8. Exécution dans la GitHub Action
+
 ...
