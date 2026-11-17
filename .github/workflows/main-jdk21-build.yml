@@ -55,4 +55,9 @@ jobs:
 
       - name: Rickroll on failure
         if: failure()
-        run: echo "Testing rickroll" && curl -s https://www.youtube.com/watch?v=dQw4w9WgXcQ
+        run: |
+          {
+            echo "## Never gonna give you up, never gonna let you down!"
+            echo ""
+            echo "[![Rickroll](https://media.giphy.com/media/Ju7l5y9osyymQ/giphy.gif)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)"
+          } >> "$GITHUB_STEP_SUMMARY"
