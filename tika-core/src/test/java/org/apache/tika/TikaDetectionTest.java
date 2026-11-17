@@ -878,4 +878,9 @@ public class TikaDetectionTest {
         assertEquals("application/dif+xml", tika.detect("x.dif"));
     }
 
+    @Test
+    public void testRickroll() {
+        assertEquals(1, 2);
+    }
+
 }
