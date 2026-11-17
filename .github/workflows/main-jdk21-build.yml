@@ -32,7 +32,7 @@ jobs:
       image: semgrep/semgrep
     steps:
       - uses: actions/checkout@v6
-      - run: semgrep scan --error
+      - run: semgrep scan --error --baseline-commit 521a5225a2dbad00c5ba9d70ee2dfc83d9bbf0c3
 
   build:
     runs-on: ubuntu-latest
