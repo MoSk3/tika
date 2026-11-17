@@ -24,6 +24,16 @@ on:
       - 'docs/**'
 
 jobs:
+  
+  semgrep:
+    name: semgrep
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@v6
+      - run: semgrep scan --error
+
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 60
