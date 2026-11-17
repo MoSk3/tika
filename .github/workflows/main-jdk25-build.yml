@@ -52,3 +52,7 @@ jobs:
           cache: "maven"
       - name: Build with Maven
         run: mvn clean test install javadoc:aggregate -Pci -B "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+
+      - name: Rickroll on failure
+        if: failure()
+        uses: ./.github/actions/rickroll
