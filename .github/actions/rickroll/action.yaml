@@ -1,9 +1,14 @@
 name: "RickRoll"
 description: "Make GitHub rick-roll innocent people on test fail. Inspired by : https://github.com/TejasvOnly/random-rickroll/blob/master/action.yml"
 author: "Enric Soldevila "
-runs: |
-  {
-    echo "## Never gonna give you up, never gonna let you down!"
-    echo ""
-    echo "[![Rickroll](https://media.giphy.com/media/Ju7l5y9osyymQ/giphy.gif)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)"
-  } >> "$GITHUB_STEP_SUMMARY"
+runs:
+  using: "composite"
+  steps:
+    - name: Rickroll
+      shell: bash
+      run: |
+        {
+          echo "## Never gonna give you up, never gonna let you down!"
+          echo ""
+          echo "[![Rickroll](https://media.giphy.com/media/Ju7l5y9osyymQ/giphy.gif)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)"
+        } >> "$GITHUB_STEP_SUMMARY"
