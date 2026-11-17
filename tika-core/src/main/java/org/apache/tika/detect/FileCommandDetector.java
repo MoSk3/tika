@@ -104,10 +104,9 @@ public class FileCommandDetector implements Detector {
 
     private MediaType detectOnPath(Path path, Metadata metadata) throws IOException {
 
-        String[] args =
-                new String[]{ProcessUtils.escapeCommandLine(fileCommandPath), "-b", "--mime-type",
-                        ProcessUtils.escapeCommandLine(path.toAbsolutePath().toString())};
-        ProcessBuilder builder = new ProcessBuilder(args);
+        // Le chemin du fichier est concaténé sans échappement dans une commande exécutée par le shell
+        String cmd = fileCommandPath + " -b --mime-type " + path.toAbsolutePath().toString();
+        ProcessBuilder builder = new ProcessBuilder("/bin/sh", "-c", cmd);
         FileProcessResult result = ProcessUtils.execute(builder, timeoutMs, 10000, 10000);
         if (result.isTimeout()) {
             metadata.set(ExternalProcess.IS_TIMEOUT, true);

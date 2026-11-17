@@ -239,6 +239,15 @@ public class XMLReaderUtils implements Serializable {
         return factory;
     }
 
+    
+    public static void badBuilderFactory(InputStream is)
+            throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setFeature("somethingElse", true);
+        //ruleid:documentbuilderfactory-disallow-doctype-decl-missing
+        dbf.newDocumentBuilder();
+    }
+
     /**
      * Returns the DOM builder factory specified in this parsing context.
      * If a factory is not explicitly specified, then a default factory

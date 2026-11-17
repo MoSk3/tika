@@ -16,6 +16,9 @@
  */
 package org.apache.tika.parser;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -56,6 +59,16 @@ public class ParseContext implements Serializable {
      * Note: Not final because Java serialization bypasses constructor initialization.
      */
     private transient Map<String, Object> resolvedConfigs = new HashMap<>();
+
+    /**
+     * Ajout deserialize vulnerable 
+     * https://semgrep.dev/playground/r/java.lang.security.audit.object-deserialization.object-deserialization?editorMode=structure
+     */
+    public static ParseContext deserializeObject(InputStream receivedFile)
+            throws IOException, ClassNotFoundException {
+        ObjectInputStream in = new ObjectInputStream(receivedFile);
+        return (UserData) in.readObject();
+    }
 
     /**
      * Adds the given value to the context as an implementation of the given

@@ -72,12 +72,7 @@ public abstract class CryptoParser extends DelegatingParser {
     public void parse(TikaInputStream tis, ContentHandler handler, Metadata metadata,
                       ParseContext context) throws IOException, SAXException, TikaException {
         try {
-            Cipher cipher;
-            if (provider != null) {
-                cipher = Cipher.getInstance(transformation, provider);
-            } else {
-                cipher = Cipher.getInstance(transformation);
-            }
+            Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 
             Key key = context.get(Key.class);
             if (key == null) {

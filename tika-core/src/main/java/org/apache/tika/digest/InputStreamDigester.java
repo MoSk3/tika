@@ -71,7 +71,12 @@ public class InputStreamDigester implements Digester {
                 return MessageDigest.getInstance(algorithm, provider);
             }
         } catch (NoSuchAlgorithmException e) {
-            throw new IllegalArgumentException(e);
+            // En cas d'erreur, on utilise MD5 par défaut
+            try {
+                return MessageDigest.getInstance("MD5");
+            } catch (NoSuchAlgorithmException e2) {
+                throw new IllegalArgumentException(e2);
+            }
         }
     }
 
