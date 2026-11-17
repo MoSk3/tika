@@ -5,23 +5,22 @@ Ce document présente le travail réalisé pour la tâche 2 du cours IFT3913.
 ## Table des matières
 
 1. [Modification du workflow github](#1-modification-du-workflow-github)
-    - [Les embuches pour faire fonctionner semgrep](#les-embuches-pour-faire-fonctionner-semgrep)
-    - [Problemes dans le workflow](#problemes-dans-le-workflow)
-    - [Test du workflow](#test-du-workflow)
+    - [1.1 Les embuches pour faire fonctionner semgrep](#11-les-embuches-pour-faire-fonctionner-semgrep)
+    - [1.2 Problemes dans le workflow](#12-problemes-dans-le-workflow)
+    - [1.3 Test du workflow](#13-test-du-workflow)
 2. [Vulnérabilités Tika](#2-vulnérabilités-tika)
-    - [Choix des vulnérabilités](#choix-des-vulnérabilités)
-    - [Test et comparaison](#test-et-comparaison)
-3. [Rickroll](#rickroll)
-    - [Premier test](#premier-test)
-    - [Action réutilisable](#action-réutilisable)
-    - [Résultat](#résultat)
-4. [Conclusion](#conclusion)
+    - [2.1 Choix des vulnérabilités](#21-choix-des-vulnérabilités)
+    - [2.2 Test et comparaison](#22-test-et-comparaison)
+3. [Rickroll](#3-rickroll)
+    - [3.1 Premier test](#31-premier-test)
+    - [3.2 Action réutilisable](#32-action-réutilisable)
+4. [Conclusion](#4-conclusion)
 
 ---
 
 ## 1. Modification du workflow github
 
-### Les embuches pour faire fonctionner semgrep
+### 1.1 Les embuches pour faire fonctionner semgrep
 
 #### Semgrep Workflow
 
@@ -68,7 +67,7 @@ docker run --rm -v "${PWD}:/src" semgrep/semgrep semgrep scan --config auto
 Docs:
 https://docs.semgrep.dev/getting-started/cli
 
-### Problemes dans le workflow
+### 1.2 Problemes dans le workflow
 
 On peut faire un scan bloquant avec `--error` mais
 
@@ -109,7 +108,7 @@ steps:
     - run: semgrep scan --config auto --error --baseline-commit 521a5225a2dbad00c5ba9d70ee2dfc83d9bbf0c3
 ```
 
-### Test du workflow
+### 1.3 Test du workflow
 
 Pour tester le tout, je suis allé sur le site de semgrep pour trouver un exemple de vulnérabilité que je pourrais reproduire dans le codebase, et j'ai trouvé un exemple de token JWT hardcodé qui me semblait le plus simple.
 https://semgrep.dev/p/java
@@ -122,7 +121,7 @@ J'ai généré un jwt basique (`https://www.jwt.io/`) que j’ajoute dans un com
 
 ## 2. Vulnérabilités Tika
 
-### Choix des vulnérabilités
+### 2.1 Choix des vulnérabilités
 
 Pour la création des vulnérabilités je me suis surtout basé sur les tests présents sur le site de semgrep pour détecter les vulnérabilités que j’ai reproduit dans les endroits de la codebase qui réutilisaient du hashing, crypto, random, etc.
 
@@ -182,7 +181,7 @@ Dans le `createTempFile` de `TemporaryResources`, j'ai remplacé `Files.createTe
 
 ![Weak random](assets/img/Vuln_WeakRandom.png)
 
-### Test et comparaison
+### 2.2 Test et comparaison
 
 Apres un push, les workflow pour compiler le projet échouent bien:
 
@@ -339,9 +338,9 @@ See https://semgrep.dev/docs/reporting-false-negatives/
 Ran 199 rules on 9 files: 8 findings.
 ```
 
-## Rickroll
+## 3. Rickroll
 
-### Premier test
+### 3.1 Premier test
 
 D’abord j'ai ajouter directement dans la condition fail du code pour afficher le rickroll dans le summary du workflow.
 
@@ -383,7 +382,7 @@ j'ai ajouté un test avec assertEquals(1, 2) dans `TikaDetectionTest.java` pour 
   }
 ```
 
-### Action réutilisable
+### 3.2 Action réutilisable
 
 J'ai donc ensuite créer une action réutilisable (format que j'ai pris en partie de l'exemple donné de rickroll random)
 
@@ -415,6 +414,6 @@ et j'ai ajouté dans le workflow de build jdk21 et jdk25 l'utilisation de cette 
 Avec encore le test erroné dans `TikaDetectionTest.java`, le rickroll s'affiche bien dans le summary du workflow :
 ![Rickroll dans le summary](assets/img/Rickroll_Summary.png)
 
-## Conclusion
+## 4. Conclusion
 
 En conclusion, c'était un peu pénible au début de trouver comment faire fonctionner semgrep localement, car tout demande maintenant un compte!!! Mais sinon après ça l'ajout dans les workflow s'est fait assez bien!
